@@ -56,11 +56,6 @@ export default {
             this.activeCategory = categoryId;
         }
     },
-    created(){
-        axios.get("http://localhost:3000/burguers").then( response => {
-            console.log(response);
-        })
-    }
 }
 </script>
 
