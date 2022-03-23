@@ -108,5 +108,24 @@ export default {
             }
         }
     }
+
+    @media @smartphone {
+
+        width: 100%;
+        height: fit-content;
+
+        ul{
+            display: flex;
+            margin: 20px;
+            overflow: scroll;
+
+            li{
+                min-width: 78px;
+                border: 1px solid @light-grey;
+                border-radius: 8px;
+                margin-right: 10px;
+            }
+        }
+    }
 }
 </style>
