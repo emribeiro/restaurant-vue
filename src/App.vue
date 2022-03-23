@@ -1,9 +1,8 @@
 <script setup>
-import CategoryMenu from './components/CategoryMenu.vue'
 </script>
 
 <template>
-  <CategoryMenu />
+  <router-view></router-view>
 </template>
 
 <style>

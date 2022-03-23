@@ -8,6 +8,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "axios": "^0.26.1",
+    "json-server": "^0.17.0",
     "vue": "^3.2.25",
     "vue-router": "4"
   },
