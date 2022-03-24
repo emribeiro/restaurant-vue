@@ -54,6 +54,8 @@ export default {
         },
         changeActiveCategory(categoryId){
             this.activeCategory = categoryId;
+            this.$store.dispatch('changeCategory', categoryId);
+            console.log(this.$store.state.selectedCategory);
         }
     },
 }
