@@ -19,10 +19,14 @@ export default {
 }
 </script>
 
-<style>
+<style lang="less" scoped>
     .container{
         display: flex;
         margin:0;
         padding:0;
+
+        @media @tablets{
+            flex-direction: column;
+        }
     }
 </style>

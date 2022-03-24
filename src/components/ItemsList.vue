@@ -1,16 +1,18 @@
 <template>
-
     <div
         v-for="item in itemsList"
         :key="item.id"
         class="item"
     >
-        <span v-if="item.offer" class="item--offer">Oferta</span>
-        <img src="../assets/images/burger.png" class="item--image"/>
-        <h2 class="item--name">{{item.name}}</h2>
-        <p class="item--description">{{item.description}}</p>
-
-        <p class="item--price">{{formatCurrency(item.price)}}</p>
+        <div class="item--image-tag">
+            <span v-if="item.offer" class="item--offer">Oferta</span>
+            <img src="../assets/images/burger.png" class="item--image"/>
+        </div>
+        <div class="content">
+            <h2 class="item--name">{{item.name}}</h2>
+            <p class="item--description">{{item.description}}</p>
+            <p class="item--price">{{formatCurrency(item.price)}}</p>
+        </div>
     </div>
 </template>
 
@@ -80,6 +82,54 @@ export default {
         &--image{
             display: block;
             margin: 20px auto 0px;
+        }
+
+        @media @tablets {
+            width: 90%;
+            height: fit-content;
+
+            display: flex;
+            flex-direction: row;
+
+            margin: 8px 16px;
+            border: 1px solid @light-grey;
+            padding: 0;
+
+            &--image-tag{
+                display:flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin-left: 10px;
+            }
+
+            &--name{
+                margin: 8px;
+            }
+
+            &--offer{
+                position: static;
+                height: fit-content;
+                order: 1;
+                margin: 8px;
+            }
+            &--image{
+                height: 59px;
+                width: 86px;
+                margin-right: 14px;
+                order: 0;
+            }
+
+            &--description{
+                margin: 8px;
+            }
+
+            &--price{
+                text-align: right;
+                padding-right: 12px;
+                margin: 4px;
+            }
+
         }
     }
 

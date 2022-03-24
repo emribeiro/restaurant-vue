@@ -110,7 +110,7 @@ export default {
         }
     }
 
-    @media @smartphone {
+    @media @tablets {
 
         width: 100%;
         height: fit-content;
