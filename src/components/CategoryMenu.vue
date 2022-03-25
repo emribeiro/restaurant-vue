@@ -41,12 +41,15 @@ export default {
             categoriesList: [
                 { label: 'Pizza', icon: 'Pizza', id: 'pizza'},
                 { label: 'Bebidas', icon: 'Drinks', id: 'drinks'},
-                { label: 'Doces', icon: 'Sweets', id: 'sweets'},
+                { label: 'Doces', icon: 'Sweets', id: 'deserts'},
                 { label: 'Combos', icon: 'Combo', id: 'combo'},
-                { label: 'Burgers', icon: 'Burger', id: 'Burger'}
+                { label: 'Burgers', icon: 'Burger', id: 'burguers'}
             ],
-            activeCategory: "pizza", 
+            activeCategory: '', 
         }
+    },
+    mounted(){
+        this.changeActiveCategory('pizza');
     },
     methods: {
         isActive(categoryId){
@@ -55,7 +58,6 @@ export default {
         changeActiveCategory(categoryId){
             this.activeCategory = categoryId;
             this.$store.dispatch('changeCategory', categoryId);
-            console.log(this.$store.state.selectedCategory);
         }
     },
 }

@@ -26,13 +26,28 @@ export default {
         }
     },
     created(){
-        axios.get("http://localhost:3000/burguers").then( response => {
-            this.itemsList = response.data;
-        })
+        
     }, 
     methods: {
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
+        },
+        getItensList(){
+            axios.get(`http://localhost:3000/${this.selectedCategory}`).then( response => {
+                this.itemsList = response.data;
+            })
+        }
+    },
+    computed: {
+        selectedCategory: {
+            get() {
+                return this.$store.state.selectedCategory;
+            }
+        }
+    },
+    watch: {
+        selectedCategory(){
+            this.getItensList();
         }
     }    
 
