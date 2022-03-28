@@ -8,7 +8,7 @@
         >
             <div class="item--image-tag">
                 <span v-if="item.offer" class="item--offer">Oferta</span>
-                <img src="../assets/images/burger.png" class="item--image"/>
+                <img :src="imagePath(item.id)" class="item--image"/>
             </div>
             <div class="content">
                 <h2 class="item--name">{{item.name}}</h2>
@@ -49,6 +49,10 @@ export default {
                 this.itemsList = response.data;
                 this.isLoading = false
             })
+        },
+        imagePath(id){
+            console.log(id);
+            return `/src/assets/images/${id}.png`;
         }
     },
     computed: {
@@ -57,6 +61,7 @@ export default {
                 return this.$store.state.selectedCategory;
             }
         }
+        
     },
     watch: {
         selectedCategory(){
@@ -76,7 +81,7 @@ export default {
     }
     .item{
         width: 216px;
-        height: 292px;
+        height: fit-content;
         background: @neutral;
         border-radius: 8px;
         position: relative;
@@ -116,6 +121,7 @@ export default {
         &--image{
             display: block;
             margin: 20px auto 0px;
+            width: 100%;
         }
 
         @media @tablets {
