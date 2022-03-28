@@ -1,28 +1,37 @@
 <template>
-    <div
-        v-for="item in itemsList"
-        :key="item.id"
-        class="item"
-    >
-        <div class="item--image-tag">
-            <span v-if="item.offer" class="item--offer">Oferta</span>
-            <img src="../assets/images/burger.png" class="item--image"/>
-        </div>
-        <div class="content">
-            <h2 class="item--name">{{item.name}}</h2>
-            <p class="item--description">{{item.description}}</p>
-            <p class="item--price">{{formatCurrency(item.price)}}</p>
+    <div class="itemsList">
+        <Loading v-if="isLoading"/>
+        <div
+            v-for="item in itemsList"
+            :key="item.id"
+            class="item"
+        >
+            <div class="item--image-tag">
+                <span v-if="item.offer" class="item--offer">Oferta</span>
+                <img src="../assets/images/burger.png" class="item--image"/>
+            </div>
+            <div class="content">
+                <h2 class="item--name">{{item.name}}</h2>
+                <p class="item--description">{{item.description}}</p>
+                <p class="item--price">{{formatCurrency(item.price)}}</p>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
+import Loading from './loading.vue';
 
 export default {
+    name: "ItemsList",
+    components: {
+        Loading
+    },
     data(){
         return {
-            itemsList: []
+            itemsList: [],
+            isLoading: false
         }
     },
     created(){
@@ -33,8 +42,12 @@ export default {
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
         },
         getItensList(){
+            this.isLoading =  true;
+            this.itemsList = [];
+
             axios.get(`http://localhost:3000/${this.selectedCategory}`).then( response => {
                 this.itemsList = response.data;
+                this.isLoading = false
             })
         }
     },
@@ -55,6 +68,12 @@ export default {
 </script>
     
 <style lang="less" scoped>
+
+    .itemsList{
+        display: flex;
+        width: 100%;
+        flex-wrap: wrap;
+    }
     .item{
         width: 216px;
         height: 292px;

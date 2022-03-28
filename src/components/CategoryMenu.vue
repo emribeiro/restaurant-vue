@@ -25,8 +25,6 @@ import Sweets from './icons/Ice-cream.vue';
 import Combo from './icons/French-fries.vue';
 import Burger from './icons/Food.vue';
 
-import axios from 'axios';
-
 export default {
     name: 'CategoryMenu',
     components: {
