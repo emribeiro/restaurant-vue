@@ -81,12 +81,15 @@ export default {
     }
     .item{
         width: 216px;
-        height: fit-content;
+        max-height: 290px;
         background: @neutral;
         border-radius: 8px;
         position: relative;
         margin: 16px;
         padding: 16px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         &--offer{
             color: @neutral;
@@ -103,7 +106,7 @@ export default {
         &--name{
             font-size: 18px;
             font-weight: 600;
-
+            margin: 0;
         }
 
         &--description{
@@ -120,7 +123,7 @@ export default {
 
         &--image{
             display: block;
-            margin: 20px auto 0px;
+            margin: 10px auto 0px;
             width: 100%;
         }
 
@@ -168,6 +171,9 @@ export default {
                 text-align: right;
                 padding-right: 12px;
                 margin: 4px;
+            }
+            .content{
+                flex-grow: 1;
             }
 
         }
