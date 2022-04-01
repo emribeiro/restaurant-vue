@@ -5,6 +5,7 @@
             v-for="item in itemsList"
             :key="item.id"
             class="item"
+            @click="addToCart(item)"
         >
             <div class="item--image-tag">
                 <span v-if="item.offer" class="item--offer">Oferta</span>
@@ -51,8 +52,10 @@ export default {
             })
         },
         imagePath(id){
-            console.log(id);
             return `/src/assets/images/${id}.png`;
+        },
+        addToCart(item){
+            this.$store.dispatch('addToCart', item);
         }
     },
     computed: {
