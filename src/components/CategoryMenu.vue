@@ -19,11 +19,11 @@
 
 <script>
 
-import Pizza from './icons/Pizza.vue'
-import Drinks from './icons/Smothie.vue';
-import Sweets from './icons/Ice-cream.vue';
-import Combo from './icons/French-fries.vue';
-import Burger from './icons/Food.vue';
+import Pizza from '../assets/icons/pizza.svg';
+import Drinks from '../assets/icons/smothie.svg';
+import Sweets from '../assets/icons/ice-cream.svg';
+import Combo from '../assets/icons/french-fries.svg';
+import Burger from '../assets/icons/food.svg';
 
 export default {
     name: 'CategoryMenu',
