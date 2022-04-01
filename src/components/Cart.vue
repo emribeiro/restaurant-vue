@@ -1,5 +1,5 @@
 <template>
-    <div class="cart">
+    <div class="cart" v-if="isDesktop">
         <h2 class="cart--item">
             Seu Pedido
         </h2>
@@ -19,6 +19,7 @@
 <script>
 
 import CartItem from './CartItem.vue';
+import { isDesktop } from '../composable/composable.js'
 
 export default {
     name: 'Cart',
@@ -28,12 +29,13 @@ export default {
     data(){
         return {
             total: 9.90,
+            isDesktop: isDesktop()
         }
     },
     methods:{
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
-        }
+        },
     },
     computed: {
         cartList: {
@@ -41,7 +43,8 @@ export default {
                 return this.$store.state.cartList;
             }
         }
-    }
+    }, 
+
 }
 </script>
 
