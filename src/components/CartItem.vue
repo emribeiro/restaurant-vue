@@ -1,5 +1,10 @@
 <template>
     <div class="cart-item">
+        <div class="cart-item--quantity-content">
+            <span class="buttons" @click="decrementQuantity(item.id)">-</span>
+            <span class="cart-item--quantity">{{item.quantity}}</span>
+            <span class="buttons" @click="incrementQuantity(item.id)">+</span>
+        </div>
         <div class="cart-item--img-content">
             <img :src="imagePath(item.id)" class="cart-item--image"/>
         </div>
@@ -12,6 +17,8 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
     name: 'CartItem',
     props: {
@@ -24,6 +31,10 @@ export default {
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
         },
+        ...mapActions([
+            'incrementQuantity',
+            'decrementQuantity'
+        ])
     }
 }
 </script>
@@ -36,6 +47,23 @@ export default {
         border-bottom: 1px solid @light-grey;
         align-items: center;
         
+        &--quantity--content{
+            display: flex;
+            align-items: center;
+        }
+
+        &--quantity{
+            font-size: 18px;
+            font-weight: 500;
+            color: @yellow;
+            padding: 0 10px;
+        }
+        .buttons{
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
         &--image{
             width: 100%;
         }

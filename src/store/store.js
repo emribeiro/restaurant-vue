@@ -12,16 +12,33 @@ export const store = createStore({
             state.selectedCategory = id;
         },
         addToCart(state, el){
-            state.cartList.push(el);
+            state.cartList.push({... el, quantity: 1});
+        },
+        incrementQuantity(state, index){
+            ++state.cartList[index].quantity;
+        },
+        decrementQuantity(state, index){
+            if(state.cartList[index].quantity > 1){
+                --state.cartList[index].quantity;
+            }
         }
     },
     actions:{
         changeCategory(context, id){
             context.commit('changeCategory', id);
         },
-        addToCart(context, el){
-            context.commit('addToCart', el);
-        }
+        addToCart({state, commit}, el){
+            const index = state.cartList.findIndex(item => item.id === el.id);
+            (index >= 0) ? commit('incrementQuantity', index) : commit('addToCart', el);
+        },
+        incrementQuantity({ state, commit}, id){
+            const index = state.cartList.findIndex(item => item.id === id);
+            commit('incrementQuantity', index);
+        },
+        decrementQuantity({ state, commit}, id){
+            const index = state.cartList.findIndex(item => item.id === id);
+            commit('decrementQuantity', index);
+        },
     }
 });
 
