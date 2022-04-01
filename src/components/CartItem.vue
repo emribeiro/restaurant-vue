@@ -1,9 +1,9 @@
 <template>
     <div class="cart-item">
         <div class="cart-item--quantity-content">
-            <span class="buttons" @click="decrementQuantity(item.id)">-</span>
+            <button class="buttons" @click="decrementQuantity(item.id)" :disabled="item.quantity <= 1">-</button>
             <span class="cart-item--quantity">{{item.quantity}}</span>
-            <span class="buttons" @click="incrementQuantity(item.id)">+</span>
+            <button class="buttons" @click="incrementQuantity(item.id)">+</button>
         </div>
         <div class="cart-item--img-content">
             <img :src="imagePath(item.id)" class="cart-item--image"/>
@@ -62,6 +62,12 @@ export default {
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
+            border: 0;
+            background: none;
+
+            &:focus{
+                outline: 0;
+            }
         }
 
         &--image{

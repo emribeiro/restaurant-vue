@@ -18,9 +18,7 @@ export const store = createStore({
             ++state.cartList[index].quantity;
         },
         decrementQuantity(state, index){
-            if(state.cartList[index].quantity > 1){
-                --state.cartList[index].quantity;
-            }
+            --state.cartList[index].quantity;
         }
     },
     actions:{
