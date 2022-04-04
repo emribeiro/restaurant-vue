@@ -37,6 +37,13 @@ export const store = createStore({
             const index = state.cartList.findIndex(item => item.id === id);
             commit('decrementQuantity', index);
         },
+    },
+    getters: {
+        getCartTotal(state){
+            return state.cartList.reduce((acc, item) => {
+                return acc + (item.price * item.quantity);
+            }, 0);
+        }
     }
 });
 

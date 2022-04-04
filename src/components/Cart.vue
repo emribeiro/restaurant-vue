@@ -12,9 +12,9 @@
             :item="item"
         />
 
-        <div class="cart--total" v-if="this.total > 0">
+        <div class="cart--total" v-if="getCartTotal() > 0">
             <h3 class="cart--total--title">Total</h3>
-            <span class="cart--total--amount">{{formatCurrency(this.total)}}</span>
+            <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
     </div>
 </template>
@@ -23,6 +23,7 @@
 
 import CartItem from './CartItem.vue';
 import { isSmallScreen } from '../composable/composable.js'
+import { mapGetters } from 'vuex';
 
 export default {
     name: 'Cart',
@@ -31,7 +32,6 @@ export default {
     },
     data(){
         return {
-            total: 9.90,
             isSmallScreen: isSmallScreen()
         }
     },
@@ -39,6 +39,9 @@ export default {
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
         },
+        ...mapGetters([
+            'getCartTotal'
+        ])
     },
     computed: {
         cartList: {
