@@ -105,5 +105,28 @@ export default {
             font-weight: 600;
             color: @yellow;
         }
+
+        @media @tablets{
+            flex-wrap: wrap;
+            padding-bottom: 0;
+           
+            &--quantity-content{
+                order: 3;
+                margin: 12px 16px;
+            }
+
+            &--img-content{
+                order: 1;
+            }
+            .content{
+                order:2;
+            }
+
+            &--price{
+                order: 4;
+                margin-left: 24px;
+            }
+            
+        }
     }
 </style>

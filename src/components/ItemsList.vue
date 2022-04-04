@@ -36,7 +36,7 @@ export default {
         }
     },
     created(){
-        
+        this.getItensList();
     }, 
     methods: {
         formatCurrency(amount){

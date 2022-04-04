@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <div class="cart-icon" v-if="isSmallScreen">
+        <router-link to="/cart" class="cart-icon" v-if="isSmallScreen">
             <CartIcon />
-        </div>
+        </router-link>
         <CategoryMenu />
         <ItemsList />
-        <Cart />
+        <Cart v-if="isDesktop"/>
     </div>
 </template>
 
@@ -15,7 +15,7 @@ import CategoryMenu from "../components/CategoryMenu.vue"
 import ItemsList from "../components/ItemsList.vue"
 import Cart from "../components/Cart.vue"
 import CartIcon from "../assets/icons/cart.svg";
-import { isSmallScreen } from "../composable/composable.js";
+import { isSmallScreen, isDesktop } from "../composable/composable.js";
 
 export default {
     name: 'Home', 
@@ -27,7 +27,8 @@ export default {
     },
     data(){
         return{
-            isSmallScreen: isSmallScreen()
+            isSmallScreen: isSmallScreen(),
+            isDesktop: isDesktop()
         }
     }
 }

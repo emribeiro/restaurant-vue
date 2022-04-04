@@ -1,5 +1,8 @@
 <template>
-    <div class="cart" v-if="isDesktop">
+    <div class="cart">
+        <router-link to="/" class="cart--goback" v-if="isSmallScreen">
+            ←️ Voltar
+        </router-link>
         <h2 class="cart--item">
             Seu Pedido
         </h2>
@@ -19,7 +22,7 @@
 <script>
 
 import CartItem from './CartItem.vue';
-import { isDesktop } from '../composable/composable.js'
+import { isSmallScreen } from '../composable/composable.js'
 
 export default {
     name: 'Cart',
@@ -29,7 +32,7 @@ export default {
     data(){
         return {
             total: 9.90,
-            isDesktop: isDesktop()
+            isSmallScreen: isSmallScreen()
         }
     },
     methods:{
@@ -62,6 +65,14 @@ export default {
             line-height: 36px;
         }
 
+        &--goback{
+            font-weight: 600;
+            font-size: 18px;
+            color: black;
+            text-decoration: none;
+            margin: 12px 0;
+        }
+
         &--total{
             display: flex;
             align-items: center;
@@ -79,6 +90,11 @@ export default {
                 font-weight: 600;
                 color: @yellow;
             }
+        }
+
+        @media @tablets{
+            min-width: unset;
+            width: unset;
         }
     }
 
