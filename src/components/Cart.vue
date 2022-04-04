@@ -6,13 +6,14 @@
         <h2 class="cart--item">
             Seu Pedido
         </h2>
+        <p v-if="isEmptyCart"> Seu Carrinho ainda está vazio.</p>
         <CartItem 
             v-for="item in cartList"
             :key="item.id"
             :item="item"
         />
 
-        <div class="cart--total" v-if="getCartTotal() > 0">
+        <div class="cart--total" v-if="isNotEmptyCart">
             <h3 class="cart--total--title">Total</h3>
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
@@ -48,6 +49,12 @@ export default {
             get(){
                 return this.$store.state.cartList;
             }
+        },
+        isNotEmptyCart(){
+            return this.cartList.length > 0;
+        },
+        isEmptyCart(){
+            return this.cartList.length == 0;
         }
     }, 
 
