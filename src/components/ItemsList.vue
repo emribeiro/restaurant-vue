@@ -23,6 +23,7 @@
 <script>
 import axios from 'axios';
 import Loading from './loading.vue';
+import { isSmallScreen } from '../composable/composable';
 
 export default {
     name: "ItemsList",
@@ -55,7 +56,11 @@ export default {
             return `/src/assets/images/${id}.png`;
         },
         addToCart(item){
-            this.$store.dispatch('addToCart', item);
+            if(isSmallScreen()){
+                this.$router.push({name: 'AddToCart', params: {id: item.id}})
+            }else{
+                this.$store.dispatch('addToCart', item);
+            }
         }
     },
     computed: {
