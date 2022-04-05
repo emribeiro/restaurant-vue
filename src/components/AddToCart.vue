@@ -6,7 +6,7 @@
     <Item :item="item" />
     <div class="add-cart--quantity-container">
       <span class="add-cart--quantity-container--title">Quantidade</span>
-      <ItemQuantity :item="item"/>
+      <ItemQuantity :item="item" :useStore="false"/>
     </div>
     <div class="add-cart--observation-container">
       <p class="add-cart--observation-container--observation">Observações:</p>
@@ -35,7 +35,7 @@ export default {
     },
     created(){
       axios.get(`http://localhost:3000/${this.selectedCategory}/${this.id}`).then( response => {
-        this.item = response.data
+        this.item = { quantity: 1, ...response.data };
       });
     },
     computed: {
