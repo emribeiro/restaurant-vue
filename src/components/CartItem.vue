@@ -1,10 +1,6 @@
 <template>
     <div class="cart-item">
-        <div class="cart-item--quantity-content">
-            <button class="buttons" @click="decrementQuantity(item.id)" :disabled="item.quantity <= 1">-</button>
-            <span class="cart-item--quantity">{{item.quantity}}</span>
-            <button class="buttons" @click="incrementQuantity(item.id)">+</button>
-        </div>
+        <ItemQuantity :item="item" />
         <div class="cart-item--img-content">
             <img :src="imagePath(item.id)" class="cart-item--image"/>
         </div>
@@ -17,10 +13,12 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
-
+import ItemQuantity from "./ItemQuantity.vue";
 export default {
     name: 'CartItem',
+    components: {
+        ItemQuantity
+    },
     props: {
         item: {}
     },
@@ -31,10 +29,6 @@ export default {
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
         },
-        ...mapActions([
-            'incrementQuantity',
-            'decrementQuantity'
-        ])
     }
 }
 </script>
@@ -46,29 +40,6 @@ export default {
         padding: 20px 0;
         border-bottom: 1px solid @light-grey;
         align-items: center;
-        
-        &--quantity--content{
-            display: flex;
-            align-items: center;
-        }
-
-        &--quantity{
-            font-size: 18px;
-            font-weight: 500;
-            color: @yellow;
-            padding: 0 10px;
-        }
-        .buttons{
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            border: 0;
-            background: none;
-
-            &:focus{
-                outline: 0;
-            }
-        }
 
         &--image{
             width: 100%;

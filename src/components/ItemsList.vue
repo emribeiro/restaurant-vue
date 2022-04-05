@@ -22,9 +22,8 @@
 
 <script>
 import axios from 'axios';
-import Loading from './loading.vue';
 import { isSmallScreen } from '../composable/composable';
-
+import Loading from './Loading.vue';
 export default {
     name: "ItemsList",
     components: {
