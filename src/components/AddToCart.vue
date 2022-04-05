@@ -12,6 +12,7 @@
       <p class="add-cart--observation-container--observation">Observações:</p>
       <textarea class="add-cart--observation-container--textarea" rows="10" v-model="observation"></textarea>
     </div>
+    <button class="primary-button add-cart--button">Adicionar ao Carrinho</button>
   </div>
 </template>
 
@@ -59,7 +60,7 @@ export default {
         font-size: 18px;
         color: black;
         text-decoration: none;
-        margin: 12px 0 18px 0;
+        margin: 12px 0 32px 0;
     }
 
     &--quantity-container{
@@ -96,6 +97,14 @@ export default {
           outline: 0;
         }
       }
+    }
+
+    &--button{
+      position: fixed;
+      bottom: 36px;
+      left: 36px;
+      right: 36px;
+      width: calc(100% - 72px);
     }
   }
 </style>
