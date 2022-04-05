@@ -12,7 +12,7 @@ export const store = createStore({
             state.selectedCategory = id;
         },
         addToCart(state, el){
-            state.cartList.push({... el, quantity: 1});
+            state.cartList.push({... el, quantity: el?.quantity || 1});
         },
         incrementQuantity(state, index){
             ++state.cartList[index].quantity;

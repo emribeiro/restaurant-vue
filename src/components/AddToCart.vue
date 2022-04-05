@@ -12,7 +12,7 @@
       <p class="add-cart--observation-container--observation">Observações:</p>
       <textarea class="add-cart--observation-container--textarea" rows="10" v-model="observation"></textarea>
     </div>
-    <button class="primary-button add-cart--button">Adicionar ao Carrinho</button>
+    <button class="primary-button add-cart--button" @click="addItemToCart">Adicionar ao Carrinho</button>
   </div>
 </template>
 
@@ -45,8 +45,13 @@ export default {
                 return this.$store.state.selectedCategory;
             }
         }
-        
     },
+    methods: {
+      addItemToCart(){
+        this.$store.dispatch('addToCart', this.item);
+        this.$router.push('/');
+      }
+    }
 }
 
 </script>
