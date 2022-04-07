@@ -7,14 +7,16 @@
             Seu Pedido
         </h2>
         <p v-if="isEmptyCart"> Seu Carrinho ainda está vazio.</p>
-        <CartItem 
-            v-for="item in cartList"
-            :key="item.id"
-            :item="item"
-        />
+        <TransitionGroup name="list" >
+            <CartItem 
+                v-for="item in cartList"
+                :key="item.id"
+                :item="item"
+            />
+        </TransitionGroup>
 
         <div class="cart--total" v-if="isNotEmptyCart">
-            <h3 class="cart--total--title">Total</h3>
+            <h3 class="cart--total--title">Total:</h3>
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
     </div>
@@ -101,6 +103,17 @@ export default {
                 color: @yellow;
             }
         }
+
+        .list-enter-active,
+        .list-leave-active {
+        transition: all 0.5s ease;
+        }
+        .list-enter-from,
+        .list-leave-to {
+        opacity: 0;
+        transform: translateX(-30px);
+        }
+
 
         @media @tablets{
             min-width: unset;
