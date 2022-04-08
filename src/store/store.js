@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 export const store = createStore({
     state(){
         return {
-            selectedCategory: 'teste',
+            selectedCategory: 'pizza',
             cartList: []
         }
     },

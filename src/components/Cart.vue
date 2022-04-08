@@ -19,23 +19,29 @@
             <h3 class="cart--total--title">Total:</h3>
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
+        <button @click="openModal()">Show Modal</button>
+        <Modal :show="showModal" @on-modal-close="closeModal()">Teste</Modal>
     </div>
 </template>
 
 <script>
 
 import CartItem from './CartItem.vue';
+import Modal from './Modal.vue';
 import { isSmallScreen } from '../composable/composable.js'
 import { mapGetters } from 'vuex';
+
 
 export default {
     name: 'Cart',
     components: {
-        CartItem
+        CartItem,
+        Modal
     },
     data(){
         return {
-            isSmallScreen: isSmallScreen()
+            isSmallScreen: isSmallScreen(),
+            showModal: false
         }
     },
     methods:{
@@ -44,7 +50,13 @@ export default {
         },
         ...mapGetters([
             'getCartTotal'
-        ])
+        ]),
+        openModal(){
+            this.showModal = true;
+        },
+        closeModal(){
+            this.showModal = false;
+        }
     },
     computed: {
         cartList: {
@@ -110,8 +122,8 @@ export default {
         }
         .list-enter-from,
         .list-leave-to {
-        opacity: 0;
-        transform: translateX(-30px);
+            opacity: 0;
+            transform: translateX(-30px);
         }
 
 
