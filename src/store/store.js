@@ -19,6 +19,9 @@ export const store = createStore({
         },
         decrementQuantity(state, index){
             --state.cartList[index].quantity;
+        },
+        removeFromCart(state, index){
+            state.cartList.splice(index, 1);
         }
     },
     actions:{
@@ -37,6 +40,10 @@ export const store = createStore({
             const index = state.cartList.findIndex(item => item.id === id);
             commit('decrementQuantity', index);
         },
+        removeFromCart({ state, commit}, id){
+            const index = state.cartList.findIndex(item => item.id === id);
+            commit('removeFromCart', index);
+        }
     },
     getters: {
         getCartTotal(state){
