@@ -63,5 +63,12 @@ export default {
                 text-align: right;
             }
         }
+
+        @media @tablets{
+            &--content{
+                padding: 14px;
+                width: 80%;
+            }
+        }
     }
 </style>

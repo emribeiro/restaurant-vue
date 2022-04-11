@@ -6,21 +6,37 @@
         </div>
         <div class="content">
             <h3 class="cart-item--name">{{item.name}}</h3>
-            <a class="cart-item--observation">Adicionar Observação</a>
+            <a class="cart-item--observation" @click="onOpenObservationModal">Adicionar Observação</a>
+            <p class="cart-item--observation-text">{{item.observation}}</p>
         </div>
         <p class="cart-item--price">{{formatCurrency(item.price)}}</p>
+        <Modal :show="showObservationModal" @on-modal-close="onCloseObservationModal">
+            <div class="observation-modal">
+                <h1>Adicionar Observação</h1>
+                <textarea rows="10" v-model="item.observation"></textarea>
+                <button class="secondary-button" @click="onCloseObservationModal">Cancelar</button>
+                <button class="primary-button" @click="onSaveObservation">Salvar</button>
+            </div>
+        </Modal>
     </div>
 </template>
 
 <script>
 import ItemQuantity from "./ItemQuantity.vue";
+import Modal from "./Modal.vue";
 export default {
     name: 'CartItem',
     components: {
-        ItemQuantity
+        ItemQuantity,
+        Modal
     },
     props: {
         item: {}
+    },
+    data(){
+        return {
+            showObservationModal: false,
+        }
     },
     methods: {
         imagePath(id){
@@ -29,6 +45,16 @@ export default {
         formatCurrency(amount){
             return amount.toLocaleString('pt-br',  {style: 'currency', currency: 'BRL'});
         },
+        onOpenObservationModal(){
+            this.showObservationModal = true;
+        },
+        onCloseObservationModal(){
+            this.showObservationModal = false;
+        },
+        onSaveObservation(){
+            this.$store.dispatch('addObservation', this.item);
+            this.showObservationModal = false;
+        }
     }
 }
 </script>
@@ -69,12 +95,37 @@ export default {
             color: @dark-grey;
             text-decoration: underline;
             margin: 0;
+            cursor: pointer;
+        }
+
+        &--observation-text{
+            font-size: 12px;
+            color: @dark-grey;
         }
 
         &--price{
             font-size: 18px;
             font-weight: 600;
             color: @yellow;
+        }
+
+        .observation-modal{
+            text-align: center;
+
+            textarea{
+                width: 90%;
+                border: 1px solid @light-grey;
+                border-radius: 8px;
+                margin-bottom: 12px;
+
+                &:focus{
+                    outline: 0;
+                }
+            }
+
+            button + button {
+                margin-left: 16px;
+            }
         }
 
         @media @tablets{
@@ -97,7 +148,12 @@ export default {
                 order: 4;
                 margin-left: 24px;
             }
-            
+
+            .observation-modal{
+                h1{
+                    font-size: 20px;
+                }
+            }
         }
     }
 </style>
