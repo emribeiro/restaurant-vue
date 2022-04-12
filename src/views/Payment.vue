@@ -5,6 +5,7 @@
           ←️ Voltar
       </router-link>
 
+      <Order></Order>
     </div>
     <Cart v-if="isDesktop"/>
   </div>
@@ -13,12 +14,14 @@
 <script>
 
 import Cart from "../components/Cart.vue"
+import Order from "../components/Order.vue"
 import { isDesktop } from "../composable/composable"
 
 export default {
     name: "Payment",
     components: {
-      Cart
+      Cart,
+      Order
     }, 
     data(){
       return {
