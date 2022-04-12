@@ -3,22 +3,26 @@
         <router-link to="/" class="cart--goback" v-if="isSmallScreen">
             ←️ Voltar
         </router-link>
-        <h2 class="cart--item">
-            Seu Pedido
-        </h2>
-        <p v-if="isEmptyCart"> Seu Carrinho ainda está vazio.</p>
-        <TransitionGroup name="list" >
-            <CartItem 
-                v-for="item in cartList"
-                :key="item.id"
-                :item="item"
-            />
-        </TransitionGroup>
+        <div class="cart--content">
+            <h2 class="cart--item">
+                Seu Pedido
+            </h2>
+            <p v-if="isEmptyCart"> Seu Carrinho ainda está vazio.</p>
+            <TransitionGroup name="list" >
+                <CartItem 
+                    v-for="item in cartList"
+                    :key="item.id"
+                    :item="item"
+                />
+            </TransitionGroup>
+        </div>
 
         <div class="cart--total" v-if="isNotEmptyCart">
             <h3 class="cart--total--title">Total:</h3>
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
+
+        <button class="primary-button finalizarCompra-button">Finalizar Compra</button>
     </div>
 </template>
 
@@ -70,7 +74,10 @@ export default {
         background: @neutral;
         width: 643px;
         min-width: 643px;
+        height: 100vh;
         padding: 20px 40px;
+        display: flex;
+        flex-direction: column;
 
         &--item{
             font-weight: 600;
@@ -84,6 +91,11 @@ export default {
             color: black;
             text-decoration: none;
             margin: 12px 0;
+        }
+
+        &--content{
+            flex-grow: 1;
+            overflow: auto;
         }
 
         &--total{
@@ -105,6 +117,10 @@ export default {
             }
         }
 
+        .finalizarCompra-button{
+            width: 397px;
+            margin: 0 auto;
+        }
         .list-enter-active,
         .list-leave-active {
         transition: all 0.5s ease;
@@ -119,6 +135,9 @@ export default {
         @media @tablets{
             min-width: unset;
             width: unset;
+            .finalizarCompra-button{
+                width: 100%;
+            }
         }
     }
 

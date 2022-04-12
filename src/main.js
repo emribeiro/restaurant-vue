@@ -5,6 +5,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from './views/Home.vue'
 import Cart from './components/Cart.vue';
 import AddToCart from './components/AddToCart.vue';
+import Payment from './views/Payment.vue';
 import { store } from './store/store';
 
 const router = createRouter({
@@ -12,7 +13,8 @@ const router = createRouter({
     routes: [
         { path: '/', component: Home},
         { path: '/cart', component: Cart},
-        { name: 'AddToCart', path: '/addtocart/:id', component: AddToCart, props: true}
+        { name: 'AddToCart', path: '/addtocart/:id', component: AddToCart, props: true},
+        { name: 'Payment', path: '/payment', component: Payment}
     ]
 })
 
