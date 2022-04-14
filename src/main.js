@@ -7,6 +7,7 @@ import Cart from './components/Cart.vue';
 import AddToCart from './components/AddToCart.vue';
 import Payment from './views/Payment.vue';
 import { store } from './store/store';
+import Maska from 'maska';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -21,4 +22,5 @@ const router = createRouter({
 createApp(App)
     .use(router)
     .use(store)
+    .use(Maska)
     .mount('#app')
