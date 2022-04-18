@@ -1,29 +1,47 @@
 <template>
   <div class="order">
       <form>
-          <h3>Seus Dados</h3>
-          <div class="order--input-group">
-            <label for="name">{{formData.name.label}}</label>
-            <input type="text" 
-                    name="name" 
-                    id="name" 
-                    v-model="formData.name.value"
-                    :placeholder="formData.name.placeholder" 
-                    :class="{'error': !formData.name.valid }"
-                    @blur="formData.name.isValid">
-            <p class="message-error" v-if="!formData.name.valid">{{formData.name.errorMessage}}</p>
+          <div class="order--personal-data">
+            <h3>Seus Dados</h3>
+            <div class="order--input-group">
+                <label for="name">{{formData.name.label}}</label>
+                <input type="text" 
+                        name="name" 
+                        id="name" 
+                        v-model="formData.name.value"
+                        :placeholder="formData.name.placeholder" 
+                        :class="{'error': !formData.name.valid }"
+                        @blur="formData.name.isValid">
+                <p class="message-error" v-if="!formData.name.valid">{{formData.name.errorMessage}}</p>
+            </div>
+            <div class="order--input-group">
+                <label for="cellphone">{{formData.cellphone.label}}</label>
+                <input type="text" 
+                        name="cellphone" 
+                        id="cellphone" 
+                        v-model="formData.cellphone.value"
+                        :placeholder="formData.cellphone.placeholder" 
+                        v-maska="formData.cellphone.mask"
+                        :class="{'error': !formData.cellphone.valid }"
+                        @blur="formData.cellphone.isValid">
+                <p class="message-error" v-if="!formData.cellphone.valid">{{formData.cellphone.errorMessage}}</p>
+            </div>
           </div>
-          <div class="order--input-group">
-            <label for="cellphone">{{formData.cellphone.label}}</label>
-            <input type="text" 
-                    name="cellphone" 
-                    id="cellphone" 
-                    v-model="formData.cellphone.value"
-                    :placeholder="formData.cellphone.placeholder" 
-                    v-maska="formData.cellphone.mask"
-                    :class="{'error': !formData.cellphone.valid }"
-                    @blur="formData.cellphone.isValid">
-            <p class="message-error" v-if="!formData.cellphone.valid">{{formData.cellphone.errorMessage}}</p>
+          <div class="order--delivery-options">
+              <h3>Entrega</h3>
+              <div class="delivery-type">
+                  <div class="radio-option">
+                      <input type="radio" id="store">
+                      <label for="store">Retirada</label>
+                  </div>
+                  <div class="radio-option">
+                      <input type="radio" id="delivery">
+                      <label for="store">Delivery</label>
+                  </div>                  
+              </div>
+          </div>
+          <div class="delivery-address">
+              <a>Adicionar Endereço</a>
           </div>
       </form>
      <button class="primary-button" @click="placeOrder()">Confirmar Pedido</button>
@@ -103,6 +121,36 @@ export default {
             input{
                 &.error{
                     border: 1px solid @pink;
+                }
+            }
+
+            .delivery-type{
+                display: flex;
+            }
+
+            .radio-option{
+                display: flex;
+                align-items: center;
+                &+.radio-option{
+                    margin-left: 24px;
+                }
+
+                input{
+                    margin: 0;
+                }
+
+                label{
+                    padding-left: 12px;
+                    font-weight: 400;
+                    color: @dark-grey;
+                }
+            }
+
+            .delivery-address{
+                a{
+                   color: @pink;
+                   font-size: 12px;
+                   text-decoration: underline; 
                 }
             }
         }

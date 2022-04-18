@@ -16,7 +16,7 @@ button, input, select, textarea{
     font-family: 'Poppins', sans-serif;
 }
 
-input{
+input[type="text"]{
     height: 48px;
     width: 100%;
     border: 1px solid @dark-grey;
@@ -33,6 +33,37 @@ input{
         outline: 0;
     }
 }
+
+
+input[type="radio"]{
+    width: 20px;
+    height: 20px;
+    border: 1px solid @light-grey;
+    border-radius: 50%;
+    position: relative;
+    appearance: none;
+    &::after{
+      content: '';
+      width: 10px;
+      height: 10px;
+      position: absolute;
+      background: @dark-grey;
+      border-radius: 50%;
+      top: 4px;
+      left: 4px;
+      transform: scale(0);
+      transition: 120ms transform ease-in-out;
+    }
+    &:checked::after{
+      transform: scale(1);
+    }
+    &:checked{
+        outline: none;
+    }
+    &:focus{
+        outline: none;
+    }
+  }
 
 .primary-button{
     background: @pink;
