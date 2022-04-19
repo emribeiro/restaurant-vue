@@ -53,6 +53,21 @@
           <div class="add-delivery-address">
               <a @click="openAddressModal" v-if="isDelivery">Adicionar Endereço</a>
           </div>
+
+          <div class="payment">
+              <h2>Pagamento</h2>
+              <h3>Método de Pagamento:</h3>
+              <div class="radio-container">
+                  <div class="radio-option">
+                      <input type="radio" name="payment-type" value="card" v-model="paymentType">
+                      <label for="payment-type">Cartão</label>
+                  </div>
+                  <div class="radio-option">
+                      <input type="radio" name="payment-type" value="money" v-model="paymentType">
+                      <label for="payment-type">Dinheiro</label>
+                  </div>   
+              </div>
+          </div>
       </form>
      <button class="primary-button" @click="placeOrder()">Confirmar Pedido</button>
      <Modal :show="showAddressModal" @on-modal-close="closeAddressModal">
@@ -127,6 +142,7 @@ export default {
             showAddressModal: false,
             deliveryType: 'store',
             showSavedAddress: false,
+            paymentType: 'card',
             formData: {
                 name: {
                     value: '',
@@ -338,6 +354,23 @@ export default {
                 }
             }
         }
+
+        .payment{
+            margin-bottom: 16px;
+
+            h2{
+                font-size: 22px;
+                font-weight: 600;
+            }
+
+            h3{
+                font-size: 16px;
+            }
+
+            .radio-container{
+                display: flex;
+            }
+        }
     }
 
     .address-container{
@@ -375,6 +408,7 @@ export default {
             justify-content: space-between;
             margin-top: 48px;
         }
+
     }
 
     .zipcode-group{
