@@ -40,7 +40,17 @@
                   </div>                  
               </div>
           </div>
-          <div class="delivery-address">
+
+          <div class="order--delivery-address-group">
+              <div class="delivery-address" v-if="showDeliveryAddress">
+                  <p>{{formData.address.value}}, {{formData.number.value}}</p>
+                  <p>{{formData.city.value}}</p>
+                  <p>{{formData.zipcode.value}}</p>
+                  <a> Editar Endereço</a>
+              </div>
+          </div>          
+
+          <div class="add-delivery-address">
               <a @click="openAddressModal" v-if="isDelivery">Adicionar Endereço</a>
           </div>
       </form>
@@ -116,6 +126,7 @@ export default {
         return {
             showAddressModal: false,
             deliveryType: 'store',
+            showSavedAddress: false,
             formData: {
                 name: {
                     value: '',
@@ -224,12 +235,16 @@ export default {
             this.validateAddressFields();
             if(!this.isAddressDataValid()) return;
 
+            this.showSavedAddress = true;
             this.closeAddressModal();
         }
     },
     computed:{
         isDelivery(){
             return this.deliveryType === 'delivery';
+        },
+        showDeliveryAddress(){
+            return this.deliveryType === 'delivery' && this.isAddressDataValid && this.showSavedAddress
         }
     }
 }
@@ -289,7 +304,7 @@ export default {
                 }
             }
 
-            .delivery-address{
+            .add-delivery-address{
                 a{
                    color: @pink;
                    font-size: 12px;
@@ -297,6 +312,29 @@ export default {
                    cursor: pointer;
                    display: block;
                    margin-bottom: 16px;
+                }
+            }
+        }
+
+        &--delivery-address-group{
+            display: flex;
+
+            .delivery-address{
+                border: 1px solid @light-grey;
+                border-radius: 8px;
+                padding: 16px 22px;
+                margin: 16px 0;
+                width: 274px;
+
+                p{
+                    color: @dark-grey;
+                    margin: 0;
+                }
+
+                a{
+                    color: @pink;
+                    font-size: 12px;
+                    text-decoration: underline;
                 }
             }
         }
