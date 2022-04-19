@@ -61,6 +61,7 @@ export default {
 
             &--closeIcon{
                 text-align: right;
+                cursor: pointer;
             }
         }
 

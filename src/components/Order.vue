@@ -31,28 +31,91 @@
               <h3>Entrega</h3>
               <div class="delivery-type">
                   <div class="radio-option">
-                      <input type="radio" id="store">
+                      <input type="radio" name="delivery-type" value="store" v-model="deliveryType">
                       <label for="store">Retirada</label>
                   </div>
                   <div class="radio-option">
-                      <input type="radio" id="delivery">
+                      <input type="radio" name="delivery-type" value="delivery" v-model="deliveryType">
                       <label for="store">Delivery</label>
                   </div>                  
               </div>
           </div>
           <div class="delivery-address">
-              <a>Adicionar Endereço</a>
+              <a @click="openAddressModal" v-if="isDelivery">Adicionar Endereço</a>
           </div>
       </form>
      <button class="primary-button" @click="placeOrder()">Confirmar Pedido</button>
+     <Modal :show="showAddressModal" @on-modal-close="closeAddressModal">
+         <div class="address-container">
+            <h3>Adicionar Endereço</h3>
+            <div class="input-group zipcode-group">
+                <label for="zipcode">{{formData.zipcode.label}}</label>
+                <input type="text" 
+                        name="zipcode" 
+                        id="zipcode" 
+                        v-model="formData.zipcode.value"
+                        :placeholder="formData.zipcode.placeholder" 
+                        v-maska="formData.zipcode.mask"
+                        :class="{'error': !formData.zipcode.valid }"
+                        @blur="formData.zipcode.isValid">
+                <p class="message-error" v-if="!formData.zipcode.valid">{{formData.zipcode.errorMessage}}</p>
+            </div>
+            <div class="input-group">
+                <label for="city">{{formData.city.label}}</label>
+                <input type="text" 
+                        name="city" 
+                        id="city" 
+                        v-model="formData.city.value"
+                        :placeholder="formData.city.placeholder" 
+                        :class="{'error': !formData.city.valid }"
+                        @blur="formData.city.isValid">
+                <p class="message-error" v-if="!formData.city.valid">{{formData.city.errorMessage}}</p>
+            </div>
+            <div class="address-container--group">
+                <div class="input-group">
+                    <label for="address">{{formData.address.label}}</label>
+                    <input type="text" 
+                            name="address" 
+                            id="address" 
+                            v-model="formData.address.value"
+                            :placeholder="formData.address.placeholder" 
+                            :class="{'error': !formData.address.valid }"
+                            @blur="formData.address.isValid">
+                    <p class="message-error" v-if="!formData.address.valid">{{formData.address.errorMessage}}</p>
+                </div>
+                <div class="input-group">
+                    <label for="number">{{formData.number.label}}</label>
+                    <input type="text" 
+                            name="number" 
+                            id="number" 
+                            v-model="formData.number.value"
+                            :placeholder="formData.number.placeholder" 
+                            :class="{'error': !formData.number.valid }"
+                            @blur="formData.number.isValid">
+                    <p class="message-error" v-if="!formData.number.valid">{{formData.number.errorMessage}}</p>
+                </div>
+            </div>
+            <div class="address-container--button-group">
+                <button class="secondary-button" @click="closeAddressModal">Cancelar</button>
+                <button class="primary-button" @click="addAddress">Incluir</button>
+            </div>
+         </div>
+     </Modal>
   </div>
 </template>
 
 <script>
+import Modal from "./Modal.vue";
+
 export default {
     name: 'Order',
+    components: {
+        Modal
+    },
     data(){
         return {
+            showAddressModal: false,
+            deliveryType: 'store',
             formData: {
                 name: {
                     value: '',
@@ -77,6 +140,52 @@ export default {
                     }
 
                 },
+                zipcode: {
+                    value: '',
+                    label: 'CEP*',
+                    placeholder: 'Digite o seu CEP',
+                    valid: true,
+                    errorMessage: 'O CEP é obrigatório',
+                    mask: '#####-###',
+                    isValid: () => {
+                        this.formData.zipcode.valid = this.formData.zipcode.value.trim().length > 0 
+                    }
+
+                },
+                address: {
+                    value: '',
+                    label: 'Endereço*',
+                    placeholder: 'Digite o seu Endereço',
+                    valid: true,
+                    errorMessage: 'O Endereço é obrigatório',
+                    isValid: () => {
+                        this.formData.address.valid = this.formData.address.value.trim().length > 0 
+                    }
+
+                },
+                city: {
+                    value: '',
+                    label: 'Cidade*',
+                    placeholder: 'Digite o sua Cidade',
+                    valid: true,
+                    errorMessage: 'A Cidade é Obrigatória',
+                    isValid: () => {
+                        this.formData.city.valid = this.formData.city.value.trim().length > 0 
+                    }
+
+                },
+                number: {
+                    value: '',
+                    label: 'Número*',
+                    placeholder: 'Digite o número',
+                    valid: true,
+                    errorMessage: 'O Número é Obrigatório',
+                    isValid: () => {
+                        this.formData.number.valid = this.formData.number.value.trim().length > 0 
+                    }
+
+                },
+                
             }
         }
     },
@@ -87,6 +196,40 @@ export default {
         },validateFields(){
             this.formData.name.isValid();
             this.formData.cellphone.isValid();
+        },
+        openAddressModal(){
+            this.showAddressModal = true;
+        },
+        closeAddressModal(){
+            this.showAddressModal = false;
+        },
+        validateAddressFields(){
+            this.formData.zipcode.isValid();
+            this.formData.city.isValid();
+            this.formData.address.isValid();
+            this.formData.number.isValid();
+        },
+        isAddressDataValid(){
+            let valid = true;
+
+            valid &= this.formData.zipcode.valid;
+            valid &= this.formData.city.valid;
+            valid &= this.formData.address.valid;
+            valid &= this.formData.number.valid;
+
+            return valid
+
+        },
+        addAddress(){
+            this.validateAddressFields();
+            if(!this.isAddressDataValid()) return;
+
+            this.closeAddressModal();
+        }
+    },
+    computed:{
+        isDelivery(){
+            return this.deliveryType === 'delivery';
         }
     }
 }
@@ -112,7 +255,6 @@ export default {
             label{
                 font-weight: 500;
             }
-
             .message-error{
                 font-size: 12px;
                 color: @pink;
@@ -126,6 +268,7 @@ export default {
 
             .delivery-type{
                 display: flex;
+                margin-bottom: 16px;
             }
 
             .radio-option{
@@ -151,9 +294,57 @@ export default {
                    color: @pink;
                    font-size: 12px;
                    text-decoration: underline; 
+                   cursor: pointer;
+                   display: block;
+                   margin-bottom: 16px;
                 }
             }
         }
     }
 
+    .address-container{
+        .input-group{
+            label{
+                font-weight: 500;
+            }
+
+            .message-error{
+                font-size: 12px;
+                color: @pink;
+            }
+            input.error{
+                    border: 1px solid @pink;
+            }
+        }
+
+        &--group{
+            display: flex;
+            margin-top: 16px;
+
+            .input-group{
+                margin: 0;
+                width: 100%;
+
+                & + .input-group{
+                    width: 40%;
+                    margin-left: 14px;
+                }
+            }
+        }
+
+        &--button-group{
+            display: flex;
+            justify-content: space-between;
+            margin-top: 48px;
+        }
+    }
+
+    .zipcode-group{
+        display: flex;
+        flex-direction:column;
+        margin-bottom: 16px;
+        input{
+            width: 40%;
+        }
+    }
 </style>
