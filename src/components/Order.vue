@@ -120,6 +120,17 @@
                     <p class="message-error" v-if="!formData.number.valid">{{formData.number.errorMessage}}</p>
                 </div>
             </div>
+            <div class="input-group">
+                <label for="complement">{{formData.complement.label}}</label>
+                <input type="text" 
+                        name="complement" 
+                        id="complement" 
+                        v-model="formData.complement.value"
+                        :placeholder="formData.complement.placeholder" 
+                        :class="{'error': !formData.complement.valid }"
+                        @blur="formData.complement.isValid">
+                <p class="message-error" v-if="!formData.complement.valid">{{formData.complement.errorMessage}}</p>
+            </div>
             <div class="address-container--button-group">
                 <button class="secondary-button" @click="closeAddressModal">Cancelar</button>
                 <button class="primary-button" @click="addAddress">Incluir</button>
@@ -209,6 +220,17 @@ export default {
                     errorMessage: 'O Número é Obrigatório',
                     isValid: () => {
                         this.formData.number.valid = this.formData.number.value.trim().length > 0 
+                    }
+
+                },
+                complement: {
+                    value: '',
+                    label: 'Complemento',
+                    placeholder: 'Digite o Complemento',
+                    valid: true,
+                    errorMessage: '',
+                    isValid: () => {
+                        return true;
                     }
 
                 },
@@ -331,6 +353,13 @@ export default {
                 }
             }
         }
+        @media @tablets{
+            button{
+                width: 100%;
+                text-align: center;
+            }
+        }
+
 
         &--delivery-address-group{
             display: flex;
@@ -353,6 +382,7 @@ export default {
                     text-decoration: underline;
                 }
             }
+
         }
 
         .payment{
