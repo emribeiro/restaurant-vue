@@ -44,14 +44,13 @@
           <div class="order--delivery-address-group">
               <div class="delivery-address" v-if="showDeliveryAddress">
                   <p>{{formData.address.value}}, {{formData.number.value}}</p>
-                  <p>{{formData.city.value}}</p>
-                  <p>{{formData.zipcode.value}}</p>
-                  <a> Editar Endereço</a>
+                  <p>{{formData.city.value}} - {{formData.state.value}}</p>
+                  <p>{{formData.complement.value}}</p>
               </div>
           </div>          
 
           <div class="add-delivery-address">
-              <a @click="openAddressModal" v-if="isDelivery">Adicionar Endereço</a>
+              <a @click="openAddressModal" v-if="isDelivery">{{isAddressDataValid ? "Editar" : "Adicionar"}} Endereço</a>
           </div>
 
           <div class="payment">
@@ -73,28 +72,30 @@
      <Modal :show="showAddressModal" @on-modal-close="closeAddressModal">
          <div class="address-container">
             <h3>Adicionar Endereço</h3>
-            <div class="input-group zipcode-group">
-                <label for="zipcode">{{formData.zipcode.label}}</label>
-                <input type="text" 
-                        name="zipcode" 
-                        id="zipcode" 
-                        v-model="formData.zipcode.value"
-                        :placeholder="formData.zipcode.placeholder" 
-                        v-maska="formData.zipcode.mask"
-                        :class="{'error': !formData.zipcode.valid }"
-                        @blur="formData.zipcode.isValid">
-                <p class="message-error" v-if="!formData.zipcode.valid">{{formData.zipcode.errorMessage}}</p>
+            <div class="address-container--group">
+                <div class="input-group">
+                    <label for="zipcode">{{formData.zipcode.label}}</label>
+                    <input type="text" 
+                            name="zipcode" 
+                            id="zipcode" 
+                            v-model="formData.zipcode.value"
+                            :placeholder="formData.zipcode.placeholder" 
+                            v-maska="formData.zipcode.mask"
+                            :class="{'error': !formData.zipcode.valid }"
+                            @blur="formData.zipcode.isValid; getAddressData();">
+                    <p class="message-error" v-if="!formData.zipcode.valid">{{formData.zipcode.errorMessage}}</p>
+                </div>
             </div>
             <div class="input-group">
-                <label for="city">{{formData.city.label}}</label>
+                <label for="bairro">{{formData.bairro.label}}</label>
                 <input type="text" 
-                        name="city" 
-                        id="city" 
-                        v-model="formData.city.value"
-                        :placeholder="formData.city.placeholder" 
-                        :class="{'error': !formData.city.valid }"
-                        @blur="formData.city.isValid">
-                <p class="message-error" v-if="!formData.city.valid">{{formData.city.errorMessage}}</p>
+                        name="bairro" 
+                        id="bairro" 
+                        v-model="formData.bairro.value"
+                        :placeholder="formData.bairro.placeholder" 
+                        :class="{'error': !formData.bairro.valid }"
+                        @blur="formData.bairro.isValid">
+                <p class="message-error" v-if="!formData.bairro.valid">{{formData.bairro.errorMessage}}</p>
             </div>
             <div class="address-container--group">
                 <div class="input-group">
@@ -113,11 +114,36 @@
                     <input type="text" 
                             name="number" 
                             id="number" 
+                            ref="number"
                             v-model="formData.number.value"
                             :placeholder="formData.number.placeholder" 
                             :class="{'error': !formData.number.valid }"
                             @blur="formData.number.isValid">
                     <p class="message-error" v-if="!formData.number.valid">{{formData.number.errorMessage}}</p>
+                </div>
+            </div>
+            <div class="address-container--group">
+                <div class="input-group">
+                    <label for="city">{{formData.city.label}}</label>
+                    <input type="text" 
+                            name="city" 
+                            id="city" 
+                            v-model="formData.city.value"
+                            :placeholder="formData.city.placeholder" 
+                            :class="{'error': !formData.city.valid }"
+                            @blur="formData.city.isValid">
+                    <p class="message-error" v-if="!formData.city.valid">{{formData.city.errorMessage}}</p>
+                </div>
+                <div class="input-group">
+                    <label for="state">{{formData.state.label}}</label>
+                    <input type="text" 
+                            name="state" 
+                            id="state" 
+                            v-model="formData.state.value"
+                            :placeholder="formData.state.placeholder" 
+                            :class="{'error': !formData.state.valid }"
+                            @blur="formData.state.isValid">
+                    <p class="message-error" v-if="!formData.state.valid">{{formData.state.errorMessage}}</p>
                 </div>
             </div>
             <div class="input-group">
@@ -137,11 +163,25 @@
             </div>
          </div>
      </Modal>
+     <Modal :show="showInvalidAddressModal" @on-modal-close="closeInvalidAddressModal">
+        <div class="invalidAddressModal">
+            <span class="icon" v-html="alertIcon()" ></span>
+            <p>Necessário informar endereço válido para entrega.</p>
+        </div>
+     </Modal>
+     <Modal :show="showSuccessOrderModal" @on-modal-close="closeSuccessOrderModal">
+        <div class="invalidAddressModal">
+            <span class="icon success" v-html="successIcon()" ></span>
+            <p>Pedido Realizado com sucesso!</p>
+        </div>
+     </Modal>
   </div>
 </template>
 
 <script>
 import Modal from "./Modal.vue";
+import axios from "axios";
+import feather from "feather-icons";
 
 export default {
     name: 'Order',
@@ -153,6 +193,8 @@ export default {
             showAddressModal: false,
             deliveryType: 'store',
             showSavedAddress: false,
+            showInvalidAddressModal: false,
+            showSuccessOrderModal: false,
             paymentType: 'card',
             formData: {
                 name: {
@@ -223,6 +265,28 @@ export default {
                     }
 
                 },
+                state: {
+                    value: '',
+                    label: 'UF*',
+                    placeholder: 'UF',
+                    valid: true,
+                    errorMessage: 'A UF é obrigatória',
+                    isValid: () => {
+                        this.formData.state.valid = this.formData.state.value.trim().length > 0 
+                    }
+
+                },
+                bairro: {
+                    value: '',
+                    label: 'Bairro*',
+                    placeholder: 'Digite o bairro',
+                    valid: true,
+                    errorMessage: 'O Bairro é Obrigatório',
+                    isValid: () => {
+                        this.formData.bairro.valid = this.formData.bairro.value.trim().length > 0 
+                    }
+
+                },
                 complement: {
                     value: '',
                     label: 'Complemento',
@@ -242,9 +306,20 @@ export default {
 
         placeOrder(){
             this.validateFields();
-        },validateFields(){
+
+            if(this.isUserDataValid() && this.isAddressDataValid()){
+                this.showSuccessOrderModal = true;
+            }
+        },
+        validateFields(){
             this.formData.name.isValid();
             this.formData.cellphone.isValid();
+            if(this.deliveryType == 'delivery'){
+                this.validateAddressFields();
+                if(!this.isAddressDataValid()){
+                    this.showInvalidAddressModal = true;
+                }
+            }
         },
         openAddressModal(){
             this.showAddressModal = true;
@@ -257,6 +332,16 @@ export default {
             this.formData.city.isValid();
             this.formData.address.isValid();
             this.formData.number.isValid();
+            this.formData.state.isValid();
+            this.formData.bairro.isValid();
+        },
+        isUserDataValid(){
+            let valid = true;
+
+            valid &= this.formData.name.valid;
+            valid &= this.formData.cellphone.valid;
+
+            return valid;
         },
         isAddressDataValid(){
             let valid = true;
@@ -265,6 +350,8 @@ export default {
             valid &= this.formData.city.valid;
             valid &= this.formData.address.valid;
             valid &= this.formData.number.valid;
+            valid &= this.formData.state.valid;
+            valid &= this.formData.bairro.valid;
 
             return valid
 
@@ -275,6 +362,29 @@ export default {
 
             this.showSavedAddress = true;
             this.closeAddressModal();
+        },
+        getAddressData(){
+            axios.get(`https://viacep.com.br/ws/${this.formData.zipcode.value}/json/`)
+                .then((response) => {
+                    this.formData.city.value = response.data.localidade;
+                    this.formData.address.value = response.data.logradouro;
+                    this.formData.state.value = response.data.uf;
+                    this.formData.bairro.value = response.data.bairro;
+                    this.$refs.number.focus();
+                })
+        },
+        closeInvalidAddressModal(){
+            this.showInvalidAddressModal = false;
+        },
+        closeSuccessOrderModal(){
+            this.showSuccessOrderModal = false;
+            this.$router.push("/");
+        },
+        alertIcon(){
+            return feather.icons["alert-triangle"].toSvg();
+        },
+        successIcon(){
+            return feather.icons["check-circle"].toSvg();
         }
     },
     computed:{
@@ -439,6 +549,10 @@ export default {
             margin-top: 48px;
         }
 
+        .zipcode-button{
+            width: 10px;
+        }
+
     }
 
     .zipcode-group{
@@ -447,6 +561,27 @@ export default {
         margin-bottom: 16px;
         input{
             width: 40%;
+        }
+    }
+
+    .invalidAddressModal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding-bottom: 12px;
+
+        .icon{
+            padding: 12px;
+            background: @yellow;
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 24px;
+        }
+
+        .success{
+            background: @green;
         }
     }
 </style>
