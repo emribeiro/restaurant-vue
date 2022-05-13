@@ -113,15 +113,18 @@ export default {
         }
     }
 
-    @media @tablets {
+    @media @small-desktops {
 
         width: 100%;
+        max-width: 800px;
         height: fit-content;
+        margin: 0 auto;
 
         ul{
             display: flex;
             margin: 20px;
             overflow: scroll;
+            justify-content: space-between;
 
             li{
                 min-width: 78px;
@@ -129,6 +132,12 @@ export default {
                 border-radius: 8px;
                 margin-right: 10px;
             }
+        }
+    }
+
+    @media @tablets{
+        ul{
+            justify-content: unset;
         }
     }
 }

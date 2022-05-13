@@ -1,11 +1,11 @@
 <template>
     <div class="container">
-        <router-link to="/cart" class="cart-icon" v-if="isSmallScreen">
+        <router-link to="/cart" class="cart-icon">
             <CartIcon />
         </router-link>
         <CategoryMenu />
         <ItemsList />
-        <Cart v-if="isDesktop"/>
+        <Cart class="cart"/>
     </div>
 </template>
 
@@ -40,23 +40,30 @@ export default {
         margin:0;
         padding:0;
 
-        @media @tablets{
-            flex-direction: column;
+        .cart-icon{
+            display: none;
         }
 
-        .cart-icon{
-            width: 42px;
-            height: 42px;
-            background: @pink;
-            display: flex;
-            border-radius: 50%;
+        @media @small-desktops{
+            flex-direction: column;
+            .cart{
+                display: none;
+            }
+
+            .cart-icon{
+                width: 42px;
+                height: 42px;
+                background: @pink;
+                display: flex;
+                border-radius: 50%;
 
 
-            justify-content: center;
-            align-items: center;
+                justify-content: center;
+                align-items: center;
 
-            margin: 20px 20px 20px auto;
+                margin: 20px 20px 20px auto;
 
+            }
         }
     }
 </style>

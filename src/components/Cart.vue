@@ -22,7 +22,7 @@
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
 
-        <button class="primary-button finalizarCompra-button">Finalizar Compra</button>
+        <button class="primary-button finalizarCompra-button" @click="goToPayment" v-if="cartList.length > 0">Finalizar Compra</button>
     </div>
 </template>
 
@@ -49,7 +49,10 @@ export default {
         },
         ...mapGetters([
             'getCartTotal'
-        ])
+        ]),
+        goToPayment(){
+            this.$router.push({ name: 'Payment' });
+        }
     },
     computed: {
         cartList: {
@@ -72,10 +75,10 @@ export default {
 
     .cart{
         background: @neutral;
-        width: 643px;
-        min-width: 643px;
+        width: 522px;
+        min-width: 522px;
         height: 100vh;
-        padding: 20px 40px;
+        padding: 30px;
         display: flex;
         flex-direction: column;
 
