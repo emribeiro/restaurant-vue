@@ -1,6 +1,6 @@
 <template>
     <div class="cart">
-        <router-link to="/" class="cart--goback" v-if="isSmallScreen">
+        <router-link to="/" class="cart--goback" v-if="!isDesktop">
             ←️ Voltar
         </router-link>
         <div class="cart--content">
@@ -29,7 +29,7 @@
 <script>
 
 import CartItem from './CartItem.vue';
-import { isSmallScreen } from '../composable/composable.js'
+import { isSmallScreen, isDesktop } from '../composable/composable.js'
 import { mapGetters } from 'vuex';
 
 
@@ -41,6 +41,7 @@ export default {
     data(){
         return {
             isSmallScreen: isSmallScreen(),
+            isDesktop: isDesktop()
         }
     },
     methods:{

@@ -110,5 +110,14 @@ export default {
       right: 36px;
       width: calc(100% - 72px);
     }
+
+    @media @small-desktops{
+      width: 800px;
+      max-width: 800px;
+      margin: auto;
+      &--button{
+        width: calc(100% - 72px);
+      }
+    }
   }
 </style>

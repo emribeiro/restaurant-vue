@@ -1,10 +1,10 @@
 
 export function isDesktop(){
     const width = window.innerWidth;
-    return width > 767;
+    return width > 1264;
 };
 
 export function isSmallScreen(){
     const width = window.innerWidth;
-    return width < 767;
+    return width < 1264;
 };
