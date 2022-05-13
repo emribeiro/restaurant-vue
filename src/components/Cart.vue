@@ -22,7 +22,7 @@
             <span class="cart--total--amount">{{formatCurrency(getCartTotal())}}</span>
         </div>
 
-        <button class="primary-button finalizarCompra-button" @click="goToPayment" v-if="cartList.length > 0">Finalizar Compra</button>
+        <button class="primary-button finalizarCompra-button" @click="goToPayment" v-if="cartList.length > 0 && !isPaymentPage">Finalizar Compra</button>
     </div>
 </template>
 
@@ -66,6 +66,9 @@ export default {
         },
         isEmptyCart(){
             return this.cartList.length == 0;
+        },
+        isPaymentPage(){
+            return this.$route.name == 'Payment';
         }
     }, 
 
